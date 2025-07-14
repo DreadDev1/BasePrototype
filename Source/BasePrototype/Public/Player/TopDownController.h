@@ -6,6 +6,7 @@
 #include "BasePlayerController.h"
 #include "TopDownController.generated.h"
 
+class IHighlightInterface;
 /**
  * 
  */
@@ -15,9 +16,14 @@ class BASEPROTOTYPE_API ATopDownController : public ABasePlayerController
 	GENERATED_BODY()
 public:
 	ATopDownController();
+	virtual void BeginPlay() override;
+	virtual void PlayerTick(float DeltaTime) override;
 
 protected:
 
 private:
-	void SetTopDownView();
+	void CursorTrace();
+	TScriptInterface<IHighlightInterface> LastActor;
+	TScriptInterface<IHighlightInterface> ThisActor;
+
 };
