@@ -3,30 +3,44 @@
 
 #include "Characters/TopDownCharacter.h"
 
+#include "Camera/CameraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/SpringArmComponent.h"
 
-// Sets default values
+
 ATopDownCharacter::ATopDownCharacter()
 {
-	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	CameraBoom->SetupAttachment(RootComponent);
+	CameraBoom->TargetArmLength = 600.f;
+	CameraBoom->bInheritPitch = false;
+	CameraBoom->bInheritRoll = false;
+	CameraBoom->bInheritYaw = false;
+
+	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
+	FollowCamera->SetupAttachment(CameraBoom);
+	FollowCamera->bUsePawnControlRotation = false;
+
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 400.0f, 0.0f);
+	GetCharacterMovement()->bConstrainToPlane = true;
+	GetCharacterMovement()->bSnapToPlaneAtStart = true;
+
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationYaw = false;
+	bUseControllerRotationRoll = false;
 }
 
-// Called when the game starts or when spawned
-void ATopDownCharacter::BeginPlay()
+void ATopDownCharacter::SetTopDownView()
 {
-	Super::BeginPlay();
-	
+	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	CameraBoom->SetupAttachment(RootComponent);
+	CameraBoom->TargetArmLength = 600.f;
+	CameraBoom->bInheritPitch = false;
+	CameraBoom->bInheritRoll = false;
+	CameraBoom->bInheritYaw = false;
 }
 
-// Called every frame
-void ATopDownCharacter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
-// Called to bind functionality to input
-void ATopDownCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-}
 

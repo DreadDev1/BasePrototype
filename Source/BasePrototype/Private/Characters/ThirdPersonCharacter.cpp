@@ -11,7 +11,7 @@ AThirdPersonCharacter::AThirdPersonCharacter()
 {
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->SetRelativeLocation(NewLocation, false);
+	CameraBoom->SetRelativeLocation(NewLocation);
 	CameraBoom->TargetArmLength = 250.f;
 	CameraBoom->bUsePawnControlRotation = true;
 

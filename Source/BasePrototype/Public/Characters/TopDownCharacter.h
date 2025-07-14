@@ -14,15 +14,7 @@ class BASEPROTOTYPE_API ATopDownCharacter : public ABaseCharacter
 public:
 	// Sets default values for this character's properties
 	ATopDownCharacter();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	void SetTopDownView();
+	FVector NewLocation = FVector(0.f, 0,600.f);
+	FRotator NewRotation = FRotator(120.0f, 0.0f, 0.0f);
 };

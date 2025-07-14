@@ -13,4 +13,11 @@ UCLASS()
 class BASEPROTOTYPE_API ATopDownController : public ABasePlayerController
 {
 	GENERATED_BODY()
+public:
+	ATopDownController();
+
+protected:
+
+private:
+	void SetTopDownView();
 };

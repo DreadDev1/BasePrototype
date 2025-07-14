@@ -17,4 +17,11 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
+
+	UPROPERTY(VisibleAnywhere, Category = Camera)
+	class USpringArmComponent* CameraBoom;
+	UPROPERTY(VisibleAnywhere, Category = Camera)
+	class UCameraComponent* FollowCamera;
+	UPROPERTY(VisibleAnywhere, Category = Camera)
+	FVector NewLocation = FVector(0.f, 0,74.f);
 };
