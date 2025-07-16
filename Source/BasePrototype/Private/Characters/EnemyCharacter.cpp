@@ -3,12 +3,20 @@
 
 #include "Characters/EnemyCharacter.h"
 
+
+#include "AbilitySystem/BaseAbilitySystemComponent.h"
+#include "AbilitySystem/AttributeSet/BaseAttributeSet.h"
 #include "BasePrototype/BasePrototype.h"
 
 
 AEnemyCharacter::AEnemyCharacter()
 {
 	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+
+	AbilitySystemComponent = CreateDefaultSubobject<UBaseAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent->SetIsReplicated(true);
+
+	AttributeSet = CreateDefaultSubobject<UBaseAttributeSet>("AttributeSet");
 }
 
 void AEnemyCharacter::HighlightEnemy()

@@ -3,7 +3,20 @@
 
 #include "Player/BasePlayerState.h"
 
+#include "AbilitySystem/BaseAbilitySystemComponent.h"
+#include "AbilitySystem/AttributeSet/BaseAttributeSet.h"
+
 ABasePlayerState::ABasePlayerState()
 {
+	AbilitySystemComponent = CreateDefaultSubobject<UBaseAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent->SetIsReplicated(true);
+
+	AttributeSet = CreateDefaultSubobject<UBaseAttributeSet>("AttributeSet");
+	
 	SetNetUpdateFrequency(100.f);
+}
+
+UAbilitySystemComponent* ABasePlayerState::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
 }
