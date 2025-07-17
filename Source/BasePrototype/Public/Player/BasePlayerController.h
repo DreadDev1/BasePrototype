@@ -21,6 +21,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
+
 private:
 
 #pragma region Mapping Context Actions
@@ -35,7 +36,8 @@ private:
     UPROPERTY(EditDefaultsOnly, Category="Base Prototype|Inputs|Input Actions")
     TObjectPtr<UInputAction> LookAction;
 #pragma endregion Mapping Context Actions
-
+	
+	
 	void CreateHUDWidget();
 	UPROPERTY(EditDefaultsOnly, Category="Base Prototype|Widgets")
 	TSubclassOf<UBaseHUDWidget> HUDWidgetClass;

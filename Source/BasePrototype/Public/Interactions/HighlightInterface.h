@@ -22,6 +22,8 @@ class BASEPROTOTYPE_API IHighlightInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual void HighlightEnemy() = 0;
-	virtual void UnHighlightEnemy() = 0;
+	virtual void HighlightEnemy() { };
+	virtual void UnHighlightEnemy() { };
+	virtual void HighlightItem() { };
+	virtual void UnHighlightItem() { };
 };
