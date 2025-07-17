@@ -14,7 +14,9 @@ class BASEPROTOTYPE_API ATopDownCharacter : public ABaseCharacter
 public:
 	// Sets default values for this character's properties
 	ATopDownCharacter();
-	void SetTopDownView();
-	FVector NewLocation = FVector(0.f, 0,600.f);
-	FRotator NewRotation = FRotator(120.0f, 0.0f, 0.0f);
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
+
+private:
+	void InitAbilityActorInfo();
 };

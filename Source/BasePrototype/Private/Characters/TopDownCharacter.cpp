@@ -3,15 +3,16 @@
 
 #include "Characters/TopDownCharacter.h"
 
+#include "AbilitySystemComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Player/BasePlayerState.h"
 
 
 ATopDownCharacter::ATopDownCharacter()
 {
-	PrimaryActorTick.bCanEverTick = true;
-
+#pragma region Camera Settings
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->TargetArmLength = 600.f;
@@ -31,16 +32,31 @@ ATopDownCharacter::ATopDownCharacter()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
+#pragma endregion Camera Settings
 }
 
-void ATopDownCharacter::SetTopDownView()
+void ATopDownCharacter::PossessedBy(AController* NewController)
 {
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 600.f;
-	CameraBoom->bInheritPitch = false;
-	CameraBoom->bInheritRoll = false;
-	CameraBoom->bInheritYaw = false;
+	Super::PossessedBy(NewController);
+	// Init ability actor info for the Server
+	InitAbilityActorInfo();
 }
+
+void ATopDownCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	// Init ability actor info for the Client
+	InitAbilityActorInfo();
+}
+
+void ATopDownCharacter::InitAbilityActorInfo()
+{
+	ABasePlayerState* BasePlayerState = GetPlayerState<ABasePlayerState>();
+	check(BasePlayerState);
+	BasePlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(BasePlayerState, this);
+	AbilitySystemComponent = BasePlayerState->GetAbilitySystemComponent();
+	AttributeSet = BasePlayerState->GetAttributeSet();
+}
+
 
 

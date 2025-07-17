@@ -13,10 +13,16 @@ class BASEPROTOTYPE_API AEnemyCharacter : public ABaseCharacter, public IHighlig
 	GENERATED_BODY()
 public:
 	AEnemyCharacter();
+
+	/** Highlight Interface*/
 	virtual void HighlightEnemy() override;
 	virtual void UnHighlightEnemy() override;
-
+	/** end Highlight Interface*/
+	
 	UPROPERTY(BlueprintReadOnly)
 	bool bHighlighted = false;
+
+protected:
+	virtual void BeginPlay() override;
 
 };
