@@ -4,6 +4,7 @@
 #include "Player/BasePlayerController.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Widgets/Base/BaseHUDWidget.h"
 
 ABasePlayerController::ABasePlayerController()
 {
@@ -24,6 +25,7 @@ void ABasePlayerController::BeginPlay()
 	{
 		for (UInputMappingContext* CurrentContext : DefaultIMCs) { Subsystem->AddMappingContext(CurrentContext, 0); }
 	}
+	CreateHUDWidget();
 }
 
 void ABasePlayerController::SetupInputComponent()
@@ -56,4 +58,14 @@ void ABasePlayerController::Look(const FInputActionValue& InputActionValue)
 	const FVector2D InputAxisVector = InputActionValue.Get<FVector2D>();
 	AddYawInput(InputAxisVector.X);
 	AddPitchInput(InputAxisVector.Y);
+}
+
+void ABasePlayerController::CreateHUDWidget()
+{
+	if (!IsLocalController()) return;
+	HUDWidget = CreateWidget<UBaseHUDWidget>(this, HUDWidgetClass);
+	if (IsValid(HUDWidget))
+	{
+		HUDWidget->AddToViewport();
+	}
 }

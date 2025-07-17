@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "BasePlayerController.generated.h"
 
+class UBaseHUDWidget;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
@@ -22,6 +23,7 @@ protected:
 	virtual void SetupInputComponent() override;
 private:
 
+#pragma region Mapping Context Actions
    	UPROPERTY(EditDefaultsOnly, Category = "Base Prototype|Inputs|Input Mapping Context")
    	TArray<TObjectPtr<UInputMappingContext>> DefaultIMCs;
    	
@@ -32,4 +34,11 @@ private:
     void Look(const FInputActionValue& InputActionValue);
     UPROPERTY(EditDefaultsOnly, Category="Base Prototype|Inputs|Input Actions")
     TObjectPtr<UInputAction> LookAction;
+#pragma endregion Mapping Context Actions
+
+	void CreateHUDWidget();
+	UPROPERTY(EditDefaultsOnly, Category="Base Prototype|Widgets")
+	TSubclassOf<UBaseHUDWidget> HUDWidgetClass;
+	UPROPERTY()
+	TObjectPtr<UBaseHUDWidget> HUDWidget;
 };
