@@ -16,10 +16,7 @@ public:
 	AInv_Item();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UStaticMeshComponent* ItemMesh;
 
-public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 };

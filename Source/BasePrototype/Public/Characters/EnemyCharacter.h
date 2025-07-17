@@ -18,9 +18,6 @@ public:
 	virtual void HighlightEnemy() override;
 	virtual void UnHighlightEnemy() override;
 	/** end Highlight Interface*/
-	
-	UPROPERTY(BlueprintReadOnly)
-	bool bHighlighted = false;
 
 protected:
 	virtual void BeginPlay() override;

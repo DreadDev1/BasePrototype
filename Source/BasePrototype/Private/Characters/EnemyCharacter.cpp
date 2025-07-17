@@ -29,7 +29,6 @@ void AEnemyCharacter::BeginPlay()
 #pragma region Hignlight Interface
 void AEnemyCharacter::HighlightEnemy()
 {
-	bHighlighted = true;
 	GetMesh()->SetRenderCustomDepth(true);
 	GetMesh()->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
 	Weapon->SetRenderCustomDepth(true);
@@ -38,7 +37,6 @@ void AEnemyCharacter::HighlightEnemy()
 
 void AEnemyCharacter::UnHighlightEnemy()
 {
-	bHighlighted = false;
 	GetMesh()->SetRenderCustomDepth(false);
 	Weapon->SetRenderCustomDepth(false);
 }
