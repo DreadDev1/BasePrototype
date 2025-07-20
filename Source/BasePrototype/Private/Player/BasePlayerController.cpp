@@ -4,6 +4,8 @@
 #include "Player/BasePlayerController.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Characters/BaseCharacter.h"
+#include "Kismet/GameplayStatics.h"
 #include "Widgets/Base/BaseHUDWidget.h"
 
 ABasePlayerController::ABasePlayerController()

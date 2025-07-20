@@ -5,13 +5,16 @@
 
 #include "EnhancedInputComponent.h"
 #include "Characters/BaseCharacter.h"
-#include "Interactions/HighlightInterface.h"
+#include "Items/Components/Inv_ItemComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Widgets/Base/BaseHUDWidget.h"
 
 AThirdPersonController::AThirdPersonController()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	TraceLength = 500.0;
+	ItemTraceChannel = ECC_GameTraceChannel1;
+	CharacterTraceChannel = ECC_GameTraceChannel2;
 }
 
 void AThirdPersonController::Tick(float DeltaSeconds)
@@ -33,7 +36,6 @@ void AThirdPersonController::Interact()
 {
 	UE_LOG(LogTemp, Log, TEXT("Primary Interact"))
 }
-
 void AThirdPersonController::TraceForItem()
 {
 	if (!IsValid(GEngine) || !IsValid(GEngine->GameViewport)) return;
@@ -48,15 +50,22 @@ void AThirdPersonController::TraceForItem()
 	FHitResult HitResult;
 	GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ItemTraceChannel);
 
-	LastActor = ThisActor;
-	ThisActor = HitResult.GetActor();
+	LastActor = CurrentActor;
+	CurrentActor = HitResult.GetActor();
 
-	if (ThisActor == LastActor) return;
-
-	if (ThisActor.IsValid())
+	if (!CurrentActor.IsValid())
 	{
-		
-		UE_LOG(LogTemp, Warning, TEXT("Started tracing a new actor."))
+		if (IsValid(HUDWidget)) HUDWidget->HidePickupMessage();
+	}
+	
+	if (CurrentActor == LastActor) return;
+
+	if (CurrentActor.IsValid())
+	{
+		UInv_ItemComponent* ItemComponent = CurrentActor->FindComponentByClass<UInv_ItemComponent>();
+		if (!IsValid(ItemComponent)) return;
+
+		if (IsValid(HUDWidget)) HUDWidget->ShowPickupMessage(ItemComponent->GetPickupMessage());
 	}
 
 	if (LastActor.IsValid())
@@ -80,17 +89,17 @@ void AThirdPersonController::TraceForCharacter()
 	FHitResult HitResult;
 	GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, CharacterTraceChannel);
 
-	LastTracedCharacter = CurrentTracedCharacter;
-	CurrentTracedCharacter = Cast<ABaseCharacter>(HitResult.GetActor());
+	LastCharacter = CurrentCharacter;
+	CurrentCharacter = Cast<ABaseCharacter>(HitResult.GetActor());
 
-	if (CurrentTracedCharacter == LastTracedCharacter) return;
+	if (CurrentCharacter == LastCharacter) return;
 
-	if (CurrentTracedCharacter.IsValid())
+	if (CurrentCharacter.IsValid())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Started tracing a new character."));
 	}
 
-	if (LastTracedCharacter.IsValid())
+	if (LastCharacter.IsValid())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Stopped tracing last character."));
 	}

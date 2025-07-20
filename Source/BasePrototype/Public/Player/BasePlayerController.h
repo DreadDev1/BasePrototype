@@ -10,6 +10,7 @@ class UBaseHUDWidget;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
+class ABaseCharacter;
 
 UCLASS()
 class BASEPROTOTYPE_API ABasePlayerController : public APlayerController
@@ -22,6 +23,20 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Base Prototype|Tracing|Trace Channel")
+	TEnumAsByte<ECollisionChannel> ItemTraceChannel;
+	UPROPERTY(EditAnywhere, Category = "Base Prototype|Tracing|Trace Channel")
+	TEnumAsByte<ECollisionChannel> CharacterTraceChannel;
+	TWeakObjectPtr<AActor> CurrentActor;
+	TWeakObjectPtr<AActor> LastActor;
+	TWeakObjectPtr<ABaseCharacter> CurrentCharacter;
+	TWeakObjectPtr<ABaseCharacter> LastCharacter;
+
+	void CreateHUDWidget();
+	UPROPERTY(EditDefaultsOnly, Category="Base Prototype|Widgets")
+	TSubclassOf<UBaseHUDWidget> HUDWidgetClass;
+	UPROPERTY()
+	TObjectPtr<UBaseHUDWidget> HUDWidget;
 private:
 
 #pragma region Mapping Context Actions
@@ -36,11 +51,8 @@ private:
     UPROPERTY(EditDefaultsOnly, Category="Base Prototype|Inputs|Input Actions")
     TObjectPtr<UInputAction> LookAction;
 #pragma endregion Mapping Context Actions
+
+
 	
-	
-	void CreateHUDWidget();
-	UPROPERTY(EditDefaultsOnly, Category="Base Prototype|Widgets")
-	TSubclassOf<UBaseHUDWidget> HUDWidgetClass;
-	UPROPERTY()
-	TObjectPtr<UBaseHUDWidget> HUDWidget;
+
 };

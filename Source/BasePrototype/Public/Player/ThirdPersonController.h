@@ -22,17 +22,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Base Prototype|Inputs|Input Actions")
 	TObjectPtr<UInputAction> InteractAction;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Base Prototype|Tracing|Trace Length")
+	double TraceLength;
 	void TraceForItem();
 	void TraceForCharacter();
-	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
-	double TraceLength;
-	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
-	TEnumAsByte<ECollisionChannel> ItemTraceChannel;
-	UPROPERTY(EditAnywhere, Category = "Inventory")
-	TEnumAsByte<ECollisionChannel> CharacterTraceChannel;
-
-	TWeakObjectPtr<AActor> ThisActor;
-	TWeakObjectPtr<AActor> LastActor;
-	TWeakObjectPtr<ABaseCharacter> CurrentTracedCharacter;
-	TWeakObjectPtr<ABaseCharacter> LastTracedCharacter;
 };
