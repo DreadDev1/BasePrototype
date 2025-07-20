@@ -4,6 +4,7 @@
 #include "Player/ThirdPersonController.h"
 
 #include "EnhancedInputComponent.h"
+#include "Characters/BaseCharacter.h"
 #include "Interactions/HighlightInterface.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -17,6 +18,7 @@ void AThirdPersonController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 	TraceForItem();
+	TraceForCharacter();
 }
 
 void AThirdPersonController::SetupInputComponent()
@@ -61,5 +63,35 @@ void AThirdPersonController::TraceForItem()
 	{
 		
 		UE_LOG(LogTemp, Warning, TEXT("Stopped tracing last actor."))
+	}
+}
+
+void AThirdPersonController::TraceForCharacter()
+{
+	if (!IsValid(GEngine) || !IsValid(GEngine->GameViewport)) return;
+	FVector2D ViewportSize;
+	GEngine->GameViewport->GetViewportSize(ViewportSize);
+	const FVector2D ViewportCenter = ViewportSize / 2.f;
+	FVector TraceStart;
+	FVector Forward;
+	if (!UGameplayStatics::DeprojectScreenToWorld(this, ViewportCenter, TraceStart, Forward)) return;
+
+	const FVector TraceEnd = TraceStart + Forward * TraceLength;
+	FHitResult HitResult;
+	GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, CharacterTraceChannel);
+
+	LastTracedCharacter = CurrentTracedCharacter;
+	CurrentTracedCharacter = Cast<ABaseCharacter>(HitResult.GetActor());
+
+	if (CurrentTracedCharacter == LastTracedCharacter) return;
+
+	if (CurrentTracedCharacter.IsValid())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Started tracing a new character."));
+	}
+
+	if (LastTracedCharacter.IsValid())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Stopped tracing last character."));
 	}
 }
